@@ -1,7 +1,5 @@
 #!/bin/sh
 
-echo AAA &&
-sh &&
 docker \
     container \
     create \
@@ -12,7 +10,6 @@ docker \
     --label expiry=$(date --date "now + 1 month" +%s) \
     rebelplutonium/browser:${BROWSER_SEMVER} \
         http://inner:13912 &&
-    echo BBB &&
     docker \
         container \
         create \
@@ -28,7 +25,7 @@ docker \
         --env GPG_KEY_ID \
         --env SECRETS_ORGANIZATION \
         --env SECRETS_REPOSITORY \
-        --mount type=bind,source=/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
+        --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
         --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
         --label expiry=$(date --date "now + 1 month" +%s) \
         rebelplutonium/inner:${INNER_SEMVER} &&
