@@ -8,13 +8,13 @@ docker \
     --mount type=bind,source=/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
     --shm-size 256m \
     --label expiry=$(date --date "now + 1 month" +%s) \
-    rebelplutonium/browser:${BROWSER_VERSION} \
+    rebelplutonium/browser:${BROWSER_SEMVER} \
         http://hacker:13912 &&
     docker \
         container \
         create \
         --name inner \
-        --env CLOUD9_PORT=10703 \
+        --env CLOUD9_PORT \
         --env PROJECT_NAME \
         --env USER_NAME \
         --env USER_EMAIL \
@@ -28,4 +28,4 @@ docker \
         --mount type=bind,source=/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
         --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
         --label expiry=$(date --date "now + 1 month" +%s) \
-        rebelplutonium/inner:${INNER_VERSION}
+        rebelplutonium/inner:${INNER_SEMVER}
