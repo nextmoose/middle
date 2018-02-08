@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo AAA &&
 docker \
     container \
     create \
@@ -10,6 +11,7 @@ docker \
     --label expiry=$(date --date "now + 1 month" +%s) \
     rebelplutonium/browser:${BROWSER_SEMVER} \
         http://inner:13912 &&
+    echo BBB &&
     docker \
         container \
         create \
@@ -28,7 +30,8 @@ docker \
         --mount type=bind,source=/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
         --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
         --label expiry=$(date --date "now + 1 month" +%s) \
-        rebelplutonium/inner:${INNER_SEMVER}
+        rebelplutonium/inner:${INNER_SEMVER} &&
+    echo CCC &&
     docker network create main &&
     docker network connect main browser &&
     docker network connect --alias inner main inner &&
