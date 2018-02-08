@@ -9,7 +9,7 @@ docker \
     --shm-size 256m \
     --label expiry=$(date --date "now + 1 month" +%s) \
     rebelplutonium/browser:${BROWSER_SEMVER} \
-        http://hacker:13912 &&
+        http://inner:13912 &&
     docker \
         container \
         create \
@@ -29,3 +29,8 @@ docker \
         --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
         --label expiry=$(date --date "now + 1 month" +%s) \
         rebelplutonium/inner:${INNER_SEMVER}
+    docker network create main &&
+    docker network connect main browser &&
+    docker network connect --alias inner main inner &&
+    docker container start browser inner &&
+    sh
