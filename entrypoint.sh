@@ -7,7 +7,7 @@ docker \
     create \
     --name browser \
     --privileged \
-    --mount type=bind,source=/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
+    --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
     --shm-size 256m \
     --label expiry=$(date --date "now + 1 month" +%s) \
     rebelplutonium/browser:${BROWSER_SEMVER} \
