@@ -1,6 +1,7 @@
 #!/bin/sh
 
 echo AAA &&
+sh &&
 docker \
     container \
     create \
