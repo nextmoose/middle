@@ -1,16 +1,18 @@
 #!/bin/sh
 
-docker \
-    container \
-    create \
-    --name browser \
-    --privileged \
-    --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
-    --shm-size 256m \
-    --label expiry=$(date --date "now + 1 month" +%s) \
-    --env DISPLAY \
-    rebelplutonium/browser:${BROWSER_SEMVER} \
-        http://inner:13912 &&
+docker volume create docker &&
+    docker \
+        container \
+        create \
+        --name browser \
+        --privileged \
+        --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
+        --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
+        --shm-size 256m \
+        --label expiry=$(date --date "now + 1 month" +%s) \
+        --env DISPLAY \
+        rebelplutonium/browser:${BROWSER_SEMVER} \
+            http://inner:13912 &&
     docker \
         container \
         create \
@@ -28,6 +30,7 @@ docker \
         --env SECRETS_REPOSITORY \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
         --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
+        --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
         --label expiry=$(date --date "now + 1 month" +%s) \
         rebelplutonium/inner:${INNER_SEMVER} &&
     docker network create main &&
