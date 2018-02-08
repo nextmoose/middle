@@ -10,7 +10,7 @@ docker volume create docker &&
         --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
         --shm-size 256m \
         --label expiry=$(date --date "now + 1 month" +%s) \
-        --env DISPLAY \
+        --env DISPLAY="${DISPLAY}" \
         rebelplutonium/browser:${BROWSER_SEMVER} \
             http://inner:13912 &&
     docker \
