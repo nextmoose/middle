@@ -30,6 +30,7 @@ docker volume create docker &&
         --env GPG_KEY_ID \
         --env SECRETS_ORGANIZATION \
         --env SECRETS_REPOSITORY \
+        --env DISPLAY \
         --env DOCKER_HOST=tcp://docker:2376 \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
         --mount type=bind,source=/srv/host/dev/vboxdrv,destination=/dev/vboxdrv,readonly=true \
