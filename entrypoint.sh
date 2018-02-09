@@ -8,6 +8,8 @@ docker volume create docker &&
         --privileged \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
         --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
+        --mount type=bind,source=/srv/host/dev/vboxdrv,destination=/dev/vboxdrv,readonly=true \
+        --mount type=bind,source=/srv/host/dev/vboxnetctl,destination=/dev/vboxnetctl,readonly=true \
         --shm-size 256m \
         --label expiry=$(date --date "now + 1 month" +%s) \
         --env DISPLAY="${DISPLAY}" \
@@ -30,6 +32,8 @@ docker volume create docker &&
         --env SECRETS_REPOSITORY \
         --env DOCKER_HOST=tcp://docker:2376 \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
+        --mount type=bind,source=/srv/host/dev/vboxdrv,destination=/dev/vboxdrv,readonly=true \
+        --mount type=bind,source=/srv/host/dev/vboxnetctl,destination=/dev/vboxnetctl,readonly=true \
         --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
         --label expiry=$(date --date "now + 1 month" +%s) \
         rebelplutonium/inner:${INNER_SEMVER} &&
