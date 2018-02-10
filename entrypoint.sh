@@ -43,4 +43,5 @@ cleanup(){
     docker network create main &&
     docker network connect main browser &&
     docker network connect --alias inner main inner &&
-    docker container start browser --interactive inner
+    docker container start browser &&
+    docker container start --interactive inner
