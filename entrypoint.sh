@@ -12,7 +12,7 @@ docker volume create docker &&
         --label expiry=$(date --date "now + 1 month" +%s) \
         --env DISPLAY="${DISPLAY}" \
         rebelplutonium/browser:${BROWSER_SEMVER} \
-            http://inner:13912 &&
+            http://inner:10604 &&
     docker \
         container \
         create \
