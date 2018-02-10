@@ -1,18 +1,25 @@
 #!/bin/sh
 
-docker volume create docker &&
-    docker \
-        container \
-        create \
-        --name browser \
-        --privileged \
-        --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
-        --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
-        --shm-size 256m \
-        --label expiry=$(date --date "now + 1 month" +%s) \
-        --env DISPLAY="${DISPLAY}" \
-        rebelplutonium/browser:${BROWSER_SEMVER} \
-            http://inner:10604 &&
+cleanup(){
+    docker container stop browser inner &&
+        docker container rm -fv browser inner &&
+        docker network rm main &&
+        docker volume rm docker
+} &&
+    trap cleanup EXIT &&
+    docker volume create docker &&
+        docker \
+            container \
+            create \
+            --name browser \
+            --privileged \
+            --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
+            --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
+            --shm-size 256m \
+            --label expiry=$(date --date "now + 1 month" +%s) \
+            --env DISPLAY="${DISPLAY}" \
+            rebelplutonium/browser:${BROWSER_SEMVER} \
+                http://inner:10604 &&
     docker \
         container \
         create \
@@ -36,5 +43,4 @@ docker volume create docker &&
     docker network create main &&
     docker network connect main browser &&
     docker network connect --alias inner main inner &&
-    docker container start browser inner &&
-    sh
+    docker container start browser --interactive inner
