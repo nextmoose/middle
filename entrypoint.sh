@@ -14,6 +14,7 @@ cleanup(){
             --name browser \
             --privileged \
             --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
+            --mount type=bind,source=/srv/host/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
             --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
             --shm-size 256m \
             --label expiry=$(date --date "now + 1 month" +%s) \
@@ -37,6 +38,7 @@ cleanup(){
         --env SECRETS_REPOSITORY \
         --env DOCKER_HOST=tcp://docker:2376 \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
+        --mount type=bind,source=/srv/host/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
         --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
         --label expiry=$(date --date "now + 1 month" +%s) \
         rebelplutonium/inner:${INNER_SEMVER} &&
