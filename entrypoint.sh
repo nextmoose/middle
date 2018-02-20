@@ -7,20 +7,17 @@ cleanup(){
         docker volume rm docker
 } &&
     trap cleanup EXIT &&
-    docker volume create docker &&
-        docker \
-            container \
-            create \
-            --name browser \
-            --privileged \
-            --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
-            --mount type=bind,source=/srv/host/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
-            --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
-            --shm-size 256m \
-            --label expiry=$(date --date "now + 1 month" +%s) \
-            --env DISPLAY="${DISPLAY}" \
-            rebelplutonium/browser:${BROWSER_SEMVER} \
-                http://inner:10604 &&
+    docker \
+        container \
+        create \
+        --name browser \
+        --privileged \
+        --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
+        --shm-size 256m \
+        --label expiry=$(date --date "now + 1 month" +%s) \
+        --env DISPLAY="${DISPLAY}" \
+        rebelplutonium/browser:${BROWSER_SEMVER} \
+            http://inner:10604 &&
     docker \
         container \
         create \
@@ -40,7 +37,7 @@ cleanup(){
         --env DOCKER_HOST \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
         --mount type=bind,source=/srv/host/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
-        --mount type=volume,source=docker,destination=/srv/docker,readonly=false \
+        --mount type=bind,source=/srv,destination=/srv,readonly=false \
         --label expiry=$(date --date "now + 1 month" +%s) \
         rebelplutonium/inner:${INNER_SEMVER} &&
     docker network create main &&
