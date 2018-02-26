@@ -3,8 +3,7 @@
 cleanup(){
     docker container stop browser inner &&
         docker container rm -fv browser inner &&
-        docker network rm main &&
-        docker volume rm docker
+        docker network rm main
 } &&
     trap cleanup EXIT &&
     docker \
