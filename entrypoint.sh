@@ -36,7 +36,7 @@ cleanup(){
         --env DOCKER_HOST \
         --env DISPLAY \
         --env TARGET_UID \
-        --env XDG_RUNTIME_DIR=/var/run/${TARGET_UID} \
+        --env XDG_RUNTIME_DIR=/run/user/${TARGET_UID} \
         --mount type=bind,source=/srv/pulse,target=/run/user/${TARGET_UID}/pulse,readonly=false \
         --mount type=bind,source=/home/user/workspace,destination=/home/user/workspace,readonly=false \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
