@@ -34,6 +34,9 @@ cleanup(){
         --env SECRETS_REPOSITORY \
         --env DOCKER_SEMVER \
         --env DOCKER_HOST \
+        --env DISPLAY \
+        --env TARGET_UID \
+        --env XDG_RUNTIME_DIR \
         --mount type=bind,source=/home/user/workspace,destination=/home/user/workspace,readonly=false \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
         --mount type=bind,source=/srv/host/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
