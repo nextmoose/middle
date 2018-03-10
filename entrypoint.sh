@@ -6,6 +6,9 @@ cleanup(){
         docker network rm main
 } &&
     trap cleanup EXIT &&
+    docker container prune --force &&
+    docker network prune --force &&
+    docker volume prune --force &&
     docker \
         container \
         create \
