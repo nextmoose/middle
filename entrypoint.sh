@@ -5,7 +5,7 @@ cleanup(){
         docker container rm -fv browser inner &&
         docker container ls --quiet --all | while read CONTAINER
         do
-            docker container rm --force --volumes ${CONTAINER}
+            docker container rm -fv ${CONTAINER}
         done &&
         docker network rm main &&
         docker container network --quiet | while read NETWORK
