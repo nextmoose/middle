@@ -36,6 +36,7 @@ cleanup(){
         container \
         create \
         --name inner \
+        --privileged \
         --env CLOUD9_PORT \
         --env PROJECT_NAME \
         --env USER_NAME \
