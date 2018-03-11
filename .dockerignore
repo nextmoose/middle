@@ -2,4 +2,5 @@
 .dockerignore
 .git
 .gitignore
+exec.sh
 README.md
