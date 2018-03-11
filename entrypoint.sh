@@ -5,7 +5,7 @@ cleanup(){
         docker container rm -fv browser inner &&
         docker container ls --quiet --all | while read CONTAINER
         do
-            docker container rm --force --volumes ${CONTAINER}
+            docker container rm -fv ${CONTAINER}
         done &&
         docker network rm main &&
         docker container network --quiet | while read NETWORK
@@ -54,7 +54,7 @@ cleanup(){
         --env TARGET_UID \
         --env XDG_RUNTIME_DIR=/var/run/${TARGET_UID} \
         --mount type=bind,source=/srv/pulse,target=/run/user/${TARGET_UID}/pulse,readonly=false \
-        --mount type=bind,source=/home/user/workspace,destination=/home/user/workspace,readonly=false \
+        --mount type=bind,source=/opt/cloud9/workspace,destination=/opt/cloud9/workspace,readonly=false \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
         --mount type=bind,source=/srv/host/var/run/docker.sock,destination=/var/run/docker.sock,readonly=true \
         --mount type=bind,source=/srv,destination=/srv,readonly=false \
