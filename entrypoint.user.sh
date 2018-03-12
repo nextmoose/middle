@@ -8,6 +8,7 @@ cleanup(){
         docker volume prune --force
 } &&
     trap cleanup EXIT &&
+    which docker &&
     echo PREPPING &&
     docker container prune --force &&
     docker network prune --force &&
