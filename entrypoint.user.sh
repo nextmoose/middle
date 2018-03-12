@@ -2,20 +2,9 @@
 
 cleanup(){
     docker container stop browser inner &&
-        docker container rm -fv browser inner &&
-        docker container ls --quiet --all | while read CONTAINER
-        do
-            docker container rm -fv ${CONTAINER}
-        done &&
-        docker network rm main &&
-        docker container network --quiet | while read NETWORK
-        do
-            docker network rm ${NETWORK}
-        done &&
-        docker volume ls --quiet | while read VOLUME
-        do
-            docker volume rm ${VOLUME}
-        done
+        docker container prune --force &&
+        docker network prune --force &&
+        docker volume prune --force
 } &&
     trap cleanup EXIT &&
     docker container prune --force &&
