@@ -16,10 +16,17 @@ cleanup(){
         --name browser \
         --privileged \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
+        --mount type=bind,source=/srv/pulse,destination=/run/user/${TARGET_UID}/pulse,readonly=false \
+        --mount type=bind,source=/srv/machine-id,destination=/etc/machine-id,readonly=false \
+        --mount type=bind,source=/srv/system_bus_socket,destination=/var/run/dbus/system_bus_socket,readonly=false \
+        --mount type=bind,source=/srv/dbus,destination=/var/lib/dbus,readonly=false \
+        --mount type=bind,source=/srv/tmp,destination=/tmp,readonly=false \
         --shm-size 256m \
         --label expiry=$(date --date "now + 1 month" +%s) \
         --env DISPLAY="${DISPLAY}" \
-        rebelplutonium/browser:${BROWSER_SEMVER} \
+        --env TARGET_UID="${TARGET_UID}" \
+        --env XDG_RUNTIME_DIR=/run/user/${TARGET_UID} \
+        urgemerge/chromium-pulseaudio@sha256:21d8120ff7857afb0c18d4abf098549de169782e652437441c3c7778a755e46f \
             http://inner:10604 &&
     /usr/local/bin/docker \
         container \
