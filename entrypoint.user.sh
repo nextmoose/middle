@@ -1,21 +1,16 @@
 #!/bin/sh
 
 cleanup(){
-    echo CLEANING UP &&
-        docker container stop browser inner &&
-        docker container prune --force &&
-        docker network prune --force &&
-        docker volume prune --force
+    /usr/local/bin/docker container stop browser inner &&
+        /usr/local/bin/docker container prune --force &&
+        /usr/local/bin/docker network prune --force &&
+        /usr/local/bin/docker volume prune --force
 } &&
     trap cleanup EXIT &&
-    sh &&
-    which docker &&
-    echo PREPPING &&
-    docker container prune --force &&
-    docker network prune --force &&
-    docker volume prune --force &&
-    echo CREATING THE BROWSER &&
-    docker \
+    /usr/local/bin/docker container prune --force &&
+    /usr/local/bin/docker network prune --force &&
+    /usr/local/bin/docker volume prune --force &&
+    /usr/local/bin/docker \
         container \
         create \
         --name browser \
@@ -26,8 +21,7 @@ cleanup(){
         --env DISPLAY="${DISPLAY}" \
         rebelplutonium/browser:${BROWSER_SEMVER} \
             http://inner:10604 &&
-    echo CREATING INNER &&
-    docker \
+    /usr/local/bin/docker \
         container \
         create \
         --name inner \
@@ -55,10 +49,8 @@ cleanup(){
         --mount type=bind,source=/srv,destination=/srv,readonly=false \
         --label expiry=$(date --date "now + 1 month" +%s) \
         rebelplutonium/inner:${INNER_SEMVER} &&
-    echo LINKING &&
-    docker network create main &&
-    docker network connect main browser &&
-    docker network connect --alias inner main inner &&
-    echo STARTING &&
-    docker container start browser &&
-    docker container start --interactive inner
+    /usr/local/bin/docker network create main &&
+    /usr/local/bin/docker network connect main browser &&
+    /usr/local/bin/docker network connect --alias inner main inner &&
+    /usr/local/bin/docker container start browser &&
+    /usr/local/bin/docker container start --interactive inner
