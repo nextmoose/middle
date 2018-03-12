@@ -1,8 +1,8 @@
 #!/bin/sh
 
 cleanup(){
-    docker container stop browser inner &&
-        docker container prune --force &&
+    sudo /usr/local/bin/docker container stop browser inner &&
+        sudo /usr/local/bin/docker container prune --force &&
         docker network prune --force &&
         docker volume prune --force
 } &&
@@ -14,7 +14,6 @@ cleanup(){
         container \
         create \
         --name browser \
-        --privileged \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
         --shm-size 256m \
         --label expiry=$(date --date "now + 1 month" +%s) \
@@ -41,7 +40,6 @@ cleanup(){
         --env DOCKER_HOST \
         --env DISPLAY \
         --env TARGET_UID \
-        --env XDG_RUNTIME_DIR=/var/run/${TARGET_UID} \
         --mount type=bind,source=/srv/pulse,target=/run/user/${TARGET_UID}/pulse,readonly=false \
         --mount type=bind,source=/opt/cloud9/workspace,destination=/opt/cloud9/workspace,readonly=false \
         --mount type=bind,source=/srv/host/tmp/.X11-unix,destination=/tmp/.X11-unix,readonly=true \
