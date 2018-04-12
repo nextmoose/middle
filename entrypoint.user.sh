@@ -35,7 +35,7 @@ cleanup(){
                         /input/. \
                         /output
     done
-    docker \
+    /usr/local/bin/docker \
         container \
         create \
         --name browser \
