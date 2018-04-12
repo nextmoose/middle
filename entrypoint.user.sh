@@ -5,7 +5,7 @@ cleanup(){
         /usr/local/bin/docker container prune --force &&
         /usr/local/bin/docker container prune --force &&
         /usr/local/bin/docker network prune --force &&
-        /usr/local/bin/docker volume ls --filter label=expiry | while read VOLUME
+        /usr/local/bin/docker volume ls --quiet --filter label=expiry | while read VOLUME
         do
             [ $(/usr/local/bin/docker volume inspect --format "{{ .Labels.expiry }}" ${VOLUME}) -lt $(date +%s) ] &&
                 /usr/local/bin/docker volume rm ${VOLUME}
