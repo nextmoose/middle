@@ -82,7 +82,4 @@ cleanup(){
     /usr/local/bin/docker network connect main browser &&
     /usr/local/bin/docker network connect --alias inner main inner &&
     /usr/local/bin/docker container start browser &&
-    /usr/local/bin/docker container start inner &&
-    cat /opt/scripts/post.root.sh | /usr/local/bin/docker container exec --interactive --user root inner bash &&
-    cat /opt/scripts/post.user.sh | /usr/local/bin/docker container exec --interactive inner bash &&
-    /usr/local/bin/docker container exec --interactive inner bash
+    /usr/local/bin/docker container start --interactive inner
