@@ -14,18 +14,14 @@ cleanup(){
     trap cleanup EXIT &&
     /usr/local/bin/docker container prune --force &&
     /usr/local/bin/docker network prune --force &&
-NEW_DATA_VOLUME=$(/usr/bin/docker volume create --label expiry=$(date --date "now + 1 week" +%s) --label moniker=c707b6ae-93ca-4f2f-be64-9c45508a72cb) &&
-    /usr/bin/docker volume ls --quiet --filter label=moniker=c707b6ae-93ca-4f2f-be64-9c45508a72cb | while read VOLUME
+    NEW_DATA_VOLUME=$(/usr/local/bin/docker volume create --label expiry=$(date --date "now + 1 week" +%s) --label moniker=c707b6ae-93ca-4f2f-be64-9c45508a72cb) &&
+    /usr/local/bin/docker volume ls --quiet --filter label=moniker=c707b6ae-93ca-4f2f-be64-9c45508a72cb | while read VOLUME
     do
-        /usr/bin/docker volume inspect --format "XXX {{ .Labels.expiry }} ${VOLUME} XXX" ${VOLUME}
-    done | sort -n -k 1 -r &&
-    /usr/bin/docker volume ls --quiet --filter label=moniker=c707b6ae-93ca-4f2f-be64-9c45508a72cb | while read VOLUME
-    do
-        /usr/bin/docker volume inspect --format "{{ .Labels.expiry }} ${VOLUME}" ${VOLUME}
+        /usr/local/bin/docker volume inspect --format "{{ .Labels.expiry }} ${VOLUME}" ${VOLUME}
     done | sort -n -k 1 -r | cut --fields 2 --delimiter " " | head --lines 2 | tail --lines 1 | while read OLD_DATA_VOLUME
     do
         [ ${NEW_DATA_VOLUME} != ${OLD_DATA_VOLUME} ] &&
-            /usr/bin/docker \
+            /usr/local/bin/docker \
                 container \
                 run \
                 --interactive \
