@@ -85,4 +85,4 @@ cleanup(){
     /usr/local/bin/docker container start inner &&
     cat /opt/scripts/post.root.sh | /usr/local/bin/docker container exec --interactive --user root inner bash &&
     cat /opt/scripts/post.user.sh | /usr/local/bin/docker container exec --interactive inner bash &&
-    /usr/local/bin/docker container exec --interactive inner bash
+    tail -f /dev/null
