@@ -47,6 +47,7 @@ cleanup(){
         --mount type=bind,source=/srv/system_bus_socket,destination=/var/run/dbus/system_bus_socket,readonly=false \
         --mount type=bind,source=/srv/dbus,destination=/var/lib/dbus,readonly=false \
         --mount type=bind,source=/srv/tmp,destination=/tmp,readonly=false \
+        --mount type=bind,source=/srv/working,destination=/opt/cloud9/workspace/working,readonly=false \
         --shm-size 256m \
         --label expiry=$(date --date "now + 1 month" +%s) \
         --env DISPLAY="${DISPLAY}" \
